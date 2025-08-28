@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Student Grade Generation System
 
 A Java-based system that calculates student grades based on 5 subject marks with validation, grade assignment, and **SQLite database storage**.
@@ -178,3 +179,6 @@ This implementation now uses **real SQLite database storage** instead of simulat
 - ✅ **Data persistence** between program sessions
 - ✅ **Professional database management** with proper error handling
 - ✅ **Scalable architecture** ready for production use
+=======
+# Student-Grade-Generation-System
+>>>>>>> d74eae55daeb94138059ca27b81d231729fa19dd
