@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Student Grade Generation System
 
 A Java-based system that calculates student grades based on 5 subject marks with validation, grade assignment, and **SQLite database storage**.
@@ -24,6 +23,48 @@ com.wipro.studentgrade/
     └── TestGradeSystem.java      # Test cases demonstration
 ```
 
+## New: Web UI (Attractive & Professional)
+
+A modern, responsive web page is included for quickly calculating totals, averages, and grades without running Java.
+
+- Location: `web/index.html`
+- Assets: `web/styles.css`, `web/app.js`
+- Features:
+  - **Responsive** (mobile and desktop)
+  - **Validation** for marks (0–100)
+  - **Live result** with total, average, and grade (A–F)
+  - **Professional design** using Inter font, soft gradients, and cards
+
+### How to Use the Web UI
+
+1. Open `web/index.html` in any modern browser (Chrome, Edge, Firefox).
+2. Enter student name and five marks.
+3. Click “Generate Grade”.
+4. See total, average, and grade displayed in a styled result card.
+
+> Note: The web page runs locally in the browser and does not connect to the SQLite DB. Use the Java CLI for DB storage.
+
+## Web UI connected to Database
+
+You can store and list students from the browser by running the lightweight HTTP API server.
+
+### Start the API server
+```powershell
+# From project root
+cd src
+# With SQLite driver on classpath
+java -cp ".;..\sqlite-jdbc.jar" com.wipro.studentgrade.service.HttpApiServer
+# Server runs at http://localhost:8081
+```
+
+### Use from the browser
+- Open `web/index.html`
+- Fill the form and click Generate Grade
+- The page will POST to `http://localhost:8081/api/students` and then GET the list to render the table
+- Click “Refresh List” to reload
+
+Note: CORS is enabled for convenience. Keep the server running while using the page.
+
 ## Grade Assignment
 
 - **A**: Average ≥ 90
@@ -42,6 +83,7 @@ com.wipro.studentgrade/
 - ✅ **Database management** (add, view, delete, clear students)
 - ✅ Custom exception handling
 - ✅ Comprehensive test cases with generic student names
+- ✅ Sleek, responsive web UI for quick calculations
 
 ## Database Features
 
@@ -96,7 +138,7 @@ javac -cp ".;../sqlite-jdbc.jar" com/wipro/studentgrade/*/*.java
 java -cp ".;../sqlite-jdbc.jar" com.wipro.studentgrade.service.GradeProcessor
 ```
 
-## How to Use
+## How to Use (CLI)
 
 ### **Interactive Mode with Database**
 1. **Add New Student**: Enter student name and 5 subject marks
@@ -121,24 +163,6 @@ java -cp ".;../sqlite-jdbc.jar" com.wipro.studentgrade.service.GradeProcessor
 - **SQLite JDBC Driver** (sqlite-jdbc.jar)
 - **No external database server required** (SQLite is embedded)
 
-## Database Operations
-
-### **Insert Student**
-- Validates marks (0-100)
-- Calculates total, average, and grade
-- Generates unique student ID
-- Stores in SQLite database
-
-### **View Students**
-- Retrieves all students from database
-- Displays in formatted table
-- Shows total count
-
-### **Delete Operations**
-- Delete individual student by ID
-- Clear all students with confirmation
-- Maintains data integrity
-
 ## Architecture
 
 - **Bean Layer**: Data transfer objects
@@ -146,39 +170,58 @@ java -cp ".;../sqlite-jdbc.jar" com.wipro.studentgrade.service.GradeProcessor
 - **DAO Layer**: **Real database operations** (SQLite)
 - **Util Layer**: Custom exceptions and **database utilities**
 - **Test Layer**: Comprehensive testing with generic student names
+- **Web UI**: Static HTML/CSS/JS for quick offline calculations
 
 ## File Structure
 
 ```
 Student Grade Generation System/
-├── src/                          # Java source code
-├── sqlite-jdbc.jar              # SQLite JDBC driver (download required)
-├── student_grade_system.db      # SQLite database (created automatically)
-├── compile_and_run.bat          # Main compilation and execution script
-├── download_sqlite.bat          # SQLite driver download script
-└── README.md                    # This documentation
+├── src/
+├── web/
+│   ├── index.html
+│   ├── styles.css
+│   └── app.js
+├── sqlite-jdbc.jar
+├── student_grade_system.db
+├── compile_and_run.bat
+├── download_sqlite.bat
+└── README.md
 ```
 
 ## Troubleshooting
 
-### **Database Connection Issues**
-- Ensure `sqlite-jdbc.jar` is in the project root
-- Check file permissions for database creation
-- Verify Java version compatibility
-
-### **Compilation Issues**
-- Use `compile_and_run.bat` for automatic setup
-- Ensure all dependencies are in classpath
-- Check for syntax errors in Java files
+- If DB features don’t work, ensure `sqlite-jdbc.jar` exists in the project root
+- If styles don’t load, open `web/index.html` via local file path (no server required)
 
 ## Note
 
-This implementation now uses **real SQLite database storage** instead of simulation:
-- ✅ **Permanent data storage** in SQLite database file
-- ✅ **Full CRUD operations** (Create, Read, Update, Delete)
-- ✅ **Data persistence** between program sessions
-- ✅ **Professional database management** with proper error handling
-- ✅ **Scalable architecture** ready for production use
-=======
-# Student-Grade-Generation-System
->>>>>>> d74eae55daeb94138059ca27b81d231729fa19dd
+The Java CLI persists results in SQLite; the web UI is a lightweight companion for quick grade calculations with a polished UI.
+
+## JDBC Configuration
+
+The project now uses standard JDBC settings from `db.properties`.
+
+- File: `db.properties`
+- Keys:
+  - `jdbc.driverClass` (optional for SQLite)
+  - `jdbc.url`
+  - `jdbc.username` (optional)
+  - `jdbc.password` (optional)
+
+### SQLite (default)
+```
+jdbc.url=jdbc:sqlite:student_grade_system.db
+# jdbc.driverClass=org.sqlite.JDBC
+```
+Driver JAR: place `sqlite-jdbc.jar` in project root (use `download_sqlite.bat`).
+
+### MySQL example
+```
+jdbc.driverClass=com.mysql.cj.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/student_db?useSSL=false&serverTimezone=UTC
+jdbc.username=root
+jdbc.password=your_password_here
+```
+Driver JAR: download `mysql-connector-j-<version>.jar` and place in project root.
+
+The launcher script `compile_and_run.bat` detects `sqlite-jdbc.jar` or `mysql-connector-j*.jar` and sets classpath accordingly.

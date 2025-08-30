@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Student Grade Generation</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+	<header class="app-header">
+		<div class="container header-inner">
+			<h1>Student Grade Generation</h1>
+			<p class="subtitle">Validate marks, compute total and average, and assign grade (A–F)</p>
+		</div>
+	</header>
+
+	<main class="container">
+		<section class="card">
+			<h2 class="card-title">Enter Student Details</h2>
+			<form id="gradeForm" novalidate>
+				<div class="grid-2">
+					<label class="field">
+						<span>Student Name</span>
+						<input type="text" id="name" placeholder="e.g., John Smith" pattern="[a-zA-Z\s\-']+" title="Only letters, spaces, hyphens, and apostrophes allowed" required />
+					</label>
+					<label class="field">
+						<span>Student ID (optional)</span>
+						<input type="text" id="studentId" placeholder="Auto-generated if left blank" />
+					</label>
+				</div>
+
+				<h3 class="section-heading">Marks (0–100)</h3>
+				<div class="grid-5">
+					<label class="field"><span>Subject 1</span><input type="number" id="m1" min="0" max="100" required /></label>
+					<label class="field"><span>Subject 2</span><input type="number" id="m2" min="0" max="100" required /></label>
+					<label class="field"><span>Subject 3</span><input type="number" id="m3" min="0" max="100" required /></label>
+					<label class="field"><span>Subject 4</span><input type="number" id="m4" min="0" max="100" required /></label>
+					<label class="field"><span>Subject 5</span><input type="number" id="m5" min="0" max="100" required /></label>
+				</div>
+
+				<div class="actions">
+					<button type="submit" class="btn primary">Generate Grade</button>
+					<button type="reset" class="btn">Reset</button>
+				</div>
+			</form>
+			<p class="note">Tip: To store and list in DB from this page, run the API server: <code>java -cp ".;../sqlite-jdbc.jar" com.wipro.studentgrade.service.HttpApiServer</code> and ensure it is accessible at <code>http://localhost:8081</code>.</p>
+		</section>
+
+		<section id="resultCard" class="card hidden">
+			<h2 class="card-title">Result</h2>
+			<div class="result-grid">
+				<div>
+					<div class="stat"><span class="label">Name</span><span id="rName" class="value"></span></div>
+					<div class="stat"><span class="label">Student ID</span><span id="rId" class="value"></span></div>
+				</div>
+				<div>
+					<div class="stat"><span class="label">Total</span><span id="rTotal" class="value"></span></div>
+					<div class="stat"><span class="label">Average</span><span id="rAvg" class="value"></span></div>
+				</div>
+				<div class="grade-pill" id="rGrade">A</div>
+			</div>
+			<p id="rNote" class="note"></p>
+		</section>
+
+		<section class="card" id="listCard">
+			<h2 class="card-title">Stored Students (from DB)</h2>
+			<div class="actions">
+				<button id="refreshBtn" class="btn">Refresh List</button>
+			</div>
+			<div class="table-wrap">
+				<table class="table" id="studentsTable">
+					<thead>
+						<tr>
+							<th>Student ID</th>
+							<th>Name</th>
+							<th>Total</th>
+							<th>Average</th>
+							<th>Grade</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</section>
+	</main>
+
+	<footer class="app-footer">
+		<div class="container">
+			<p>© 2025 Student Grade Generation System</p>
+		</div>
+	</footer>
+
+	<script src="app.js"></script>
+</body>
+</html>
