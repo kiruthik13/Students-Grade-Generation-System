@@ -66,23 +66,98 @@
 		</section>
 
 		<section class="card" id="listCard">
-			<h2 class="card-title">Stored Students (from DB)</h2>
+			<h2 class="card-title">Student Management Dashboard</h2>
+			
+			<!-- Search and Filter Controls -->
+			<div class="controls-section">
+				<div class="search-box">
+					<input type="text" id="searchInput" placeholder="Search students by name or ID..." class="search-input">
+					<button id="searchBtn" class="btn-search">🔍</button>
+				</div>
+				
+				<div class="filter-controls">
+					<select id="gradeFilter" class="filter-select">
+						<option value="">All Grades</option>
+						<option value="A">Grade A</option>
+						<option value="B">Grade B</option>
+						<option value="C">Grade C</option>
+						<option value="D">Grade D</option>
+						<option value="F">Grade F</option>
+					</select>
+					
+					<select id="sortBy" class="filter-select">
+						<option value="name">Sort by Name</option>
+						<option value="total">Sort by Total</option>
+						<option value="average">Sort by Average</option>
+						<option value="grade">Sort by Grade</option>
+						<option value="studentId">Sort by ID</option>
+					</select>
+					
+					<button id="exportBtn" class="btn-export">📊 Export CSV</button>
+					<button id="importBtn" class="btn-import">📁 Import CSV</button>
+					<input type="file" id="fileInput" accept=".csv" style="display: none;">
+				</div>
+			</div>
+			
 			<div class="actions">
-				<button id="refreshBtn" class="btn">Refresh List</button>
+				<button id="refreshBtn" class="btn">🔄 Refresh List</button>
+				<button onclick="clearAllStudents()" class="btn" style="background: #ef4444; color: white;">🗑️ Clear All Students</button>
+				<button id="bulkDeleteBtn" class="btn" style="background: #f59e0b; color: white;">🗑️ Bulk Delete</button>
 			</div>
 			<div class="table-wrap">
 				<table class="table" id="studentsTable">
 					<thead>
 						<tr>
+							<th><input type="checkbox" id="selectAll" class="checkbox"> Select</th>
 							<th>Student ID</th>
 							<th>Name</th>
 							<th>Total</th>
 							<th>Average</th>
 							<th>Grade</th>
+							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
 				</table>
+			</div>
+		</section>
+
+		<!-- Statistics Dashboard -->
+		<section class="card" id="statsCard">
+			<h2 class="card-title">📊 Statistics Dashboard</h2>
+			<div class="stats-grid">
+				<div class="stat-card">
+					<div class="stat-icon">👥</div>
+					<div class="stat-content">
+						<div class="stat-number" id="totalStudents">0</div>
+						<div class="stat-label">Total Students</div>
+					</div>
+				</div>
+				<div class="stat-card">
+					<div class="stat-icon">📈</div>
+					<div class="stat-content">
+						<div class="stat-number" id="avgGrade">0</div>
+						<div class="stat-label">Average Grade</div>
+					</div>
+				</div>
+				<div class="stat-card">
+					<div class="stat-icon">🏆</div>
+					<div class="stat-content">
+						<div class="stat-number" id="topGrade">-</div>
+						<div class="stat-label">Highest Grade</div>
+					</div>
+				</div>
+				<div class="stat-card">
+					<div class="stat-icon">📊</div>
+					<div class="stat-content">
+						<div class="stat-number" id="gradeDistribution">-</div>
+						<div class="stat-label">Grade Distribution</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="chart-container">
+				<canvas id="gradeChart" width="400" height="200"></canvas>
 			</div>
 		</section>
 	</main>
@@ -93,6 +168,7 @@
 		</div>
 	</footer>
 
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="app.js"></script>
 </body>
 </html>
